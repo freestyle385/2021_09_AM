@@ -26,13 +26,28 @@ public class HomePrintDanServlet extends HttpServlet {
 			inputedLimit = "9";
 		}
 
+		String inputedColor = request.getParameter("color");
+
+		if (inputedColor == null) {
+			inputedColor = "black";
+		}
+
+		String inputedBgColor = request.getParameter("background-color");
+
+		if (inputedBgColor == null) {
+			inputedBgColor = "white";
+		}
+
 		int dan = Integer.parseInt(inputedDan);
 		int limit = Integer.parseInt(inputedLimit);
+		String color = inputedColor;
+		String bgcolor = inputedBgColor;
 
-		response.getWriter().append(String.format("%d단<br>", dan));
+		response.getWriter().append(String.format("<div style=\"color:%s;background-color:%s;\">%d단</div><br />", color, bgcolor, dan));
 
 		for (int i = 1; i <= limit; i++) {
-			response.getWriter().append(String.format("%d * %d = %d<br>", dan, i, dan * i));
+			response.getWriter()
+					.append(String.format("<div style=\"color:%s;background-color:%s;\">%d * %d = %d</div><br />", color, bgcolor, dan, i, dan * i));
 
 		}
 	}
