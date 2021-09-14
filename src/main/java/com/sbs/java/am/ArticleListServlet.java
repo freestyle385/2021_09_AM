@@ -28,7 +28,7 @@ public class ArticleListServlet extends HttpServlet {
 		String driverName = "com.mysql.cj.jdbc.Driver";
 
 		try {
-			Class.forName(driverName);
+			Class.forName(driverName); // Class.forName()을 호출하면 Driver가 자기자신을 초기화하여 DriverManager에 등록을 한다.
 		} catch (ClassNotFoundException e) {
 			System.err.printf("[ClassNotFoundException 예외, %s]\n", e.getMessage());
 			response.getWriter().append("DB 드라이버 클래스 로딩 실패");
@@ -42,11 +42,14 @@ public class ArticleListServlet extends HttpServlet {
 			conn = DriverManager.getConnection(url, user, password);
 			DBUtil dbUtil = new DBUtil(request, response);
 
-			String sql = "SELECT * FROM article";
+			String sql = "SELECT * FROM article ORDER BY id DESC";
 			List<Map<String, Object>> articleRows = dbUtil.selectRows(conn, sql);
 
 			response.getWriter().append(articleRows.toString());
-			
+
+			request.setAttribute("articleRows", articleRows);
+			request.getRequestDispatcher("/jsp/home/list.jsp").forward(request, response);
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
