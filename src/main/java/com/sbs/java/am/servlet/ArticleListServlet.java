@@ -1,4 +1,4 @@
-package com.sbs.java.am;
+package com.sbs.java.am.servlet;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -12,6 +12,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.sbs.java.am.util.DBUtil;
 
 @WebServlet("/article/list")
 public class ArticleListServlet extends HttpServlet {
@@ -40,15 +42,14 @@ public class ArticleListServlet extends HttpServlet {
 
 		try {
 			conn = DriverManager.getConnection(url, user, password);
-			DBUtil dbUtil = new DBUtil(request, response);
 
 			String sql = "SELECT * FROM article ORDER BY id DESC";
-			List<Map<String, Object>> articleRows = dbUtil.selectRows(conn, sql);
+			List<Map<String, Object>> articleRows = DBUtil.selectRows(conn, sql);
 
 			response.getWriter().append(articleRows.toString());
 
 			request.setAttribute("articleRows", articleRows);
-			request.getRequestDispatcher("/jsp/home/list.jsp").forward(request, response);
+			request.getRequestDispatcher("/jsp/article/list.jsp").forward(request, response);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
