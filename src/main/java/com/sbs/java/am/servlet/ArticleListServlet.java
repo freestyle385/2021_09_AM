@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sbs.java.am.util.DBUtil;
+import com.sbs.java.am.util.SecSql;
 
 @WebServlet("/article/list")
 public class ArticleListServlet extends HttpServlet {
@@ -30,7 +31,7 @@ public class ArticleListServlet extends HttpServlet {
 		String driverName = "com.mysql.cj.jdbc.Driver";
 
 		try {
-			Class.forName(driverName); // Class.forName()을 호출하면 Driver가 자기자신을 초기화하여 DriverManager에 등록을 한다.
+			Class.forName(driverName);
 		} catch (ClassNotFoundException e) {
 			System.err.printf("[ClassNotFoundException 예외, %s]\n", e.getMessage());
 			response.getWriter().append("DB 드라이버 클래스 로딩 실패");
@@ -38,30 +39,27 @@ public class ArticleListServlet extends HttpServlet {
 		}
 
 		// DB 연결
-		Connection conn = null;
+		Connection con = null;
 
 		try {
-			conn = DriverManager.getConnection(url, user, password);
+			con = DriverManager.getConnection(url, user, password);
 
-			String sql = "SELECT * FROM article ORDER BY id DESC";
-			List<Map<String, Object>> articleRows = DBUtil.selectRows(conn, sql);
-
-			response.getWriter().append(articleRows.toString());
-
+			SecSql sql = SecSql.from("SELECT *");
+			sql.append("FROM article");
+			sql.append("ORDER BY id DESC");
+			List<Map<String, Object>> articleRows = DBUtil.selectRows(con, sql);
 			request.setAttribute("articleRows", articleRows);
 			request.getRequestDispatcher("/jsp/article/list.jsp").forward(request, response);
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			if (conn != null) {
+			if (con != null) {
 				try {
-					conn.close();
+					con.close();
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
 			}
 		}
 	}
-
 }

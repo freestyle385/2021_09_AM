@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -14,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sbs.java.am.util.DBUtil;
+import com.sbs.java.am.util.SecSql;
 
 @WebServlet("/article/detail")
 public class ArticleDetailServlet extends HttpServlet {
@@ -30,7 +30,7 @@ public class ArticleDetailServlet extends HttpServlet {
 		String driverName = "com.mysql.cj.jdbc.Driver";
 
 		try {
-			Class.forName(driverName); // Class.forName()을 호출하면 Driver가 자기자신을 초기화하여 DriverManager에 등록을 한다.
+			Class.forName(driverName);
 		} catch (ClassNotFoundException e) {
 			System.err.printf("[ClassNotFoundException 예외, %s]\n", e.getMessage());
 			response.getWriter().append("DB 드라이버 클래스 로딩 실패");
@@ -38,32 +38,29 @@ public class ArticleDetailServlet extends HttpServlet {
 		}
 
 		// DB 연결
-		Connection conn = null;
-
-		int id = Integer.parseInt(request.getParameter("id"));
+		Connection con = null;
 
 		try {
-			conn = DriverManager.getConnection(url, user, password);
+			con = DriverManager.getConnection(url, user, password);
+			int id = Integer.parseInt(request.getParameter("id"));
 
-			String sql = "SELECT * FROM article WHERE id = " + id;
-			Map<String, Object> articleRow = DBUtil.selectRow(conn, sql);
+			SecSql sql = SecSql.from("SELECT *");
+			sql.append("FROM article");
+			sql.append("WHERE id = ?", id);
 
-			response.getWriter().append(articleRow.toString());
-
+			Map<String, Object> articleRow = DBUtil.selectRow(con, sql);
 			request.setAttribute("articleRow", articleRow);
 			request.getRequestDispatcher("/jsp/article/detail.jsp").forward(request, response);
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			if (conn != null) {
+			if (con != null) {
 				try {
-					conn.close();
+					con.close();
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
 			}
 		}
 	}
-
 }
