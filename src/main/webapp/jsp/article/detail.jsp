@@ -20,5 +20,18 @@ Map<String, Object> articleRow = (Map<String, Object>) request.getAttribute("art
 	<div>제목 : <%=articleRow.get("title")%></div>
 	<div>내용 : <%=articleRow.get("body")%></div>
 	<div><a href="list">게시물 리스트로 돌아가기</a></div>
+
+<style type="text/css">
+a {
+	color: blue;
+	text-decoration: none;
+}
+a:hover {
+	color: blue;
+	text-decoration: underline;
+	
+}
+</style>
+
 </body>
 </html>

@@ -5,6 +5,8 @@
 	pageEncoding="UTF-8"%>
 <%
 List<Map<String, Object>> articleRows = (List<Map<String, Object>>) request.getAttribute("articleRows");
+int currentPage = (int) request.getAttribute("page");
+int totalPage = (int) request.getAttribute("totalPage");
 %>
 <!DOCTYPE html>
 <html>
@@ -45,9 +47,33 @@ List<Map<String, Object>> articleRows = (List<Map<String, Object>>) request.getA
 			%>
 		</tbody>
 
-
-
 	</table>
+	
+<style type="text/css">
+.page>a.red {
+	color: red;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+a:hover {
+	color: blue;
+	text-decoration: underline;
+	
+}
+</style>
+
+	<div class="page">
+		<%
+		for (int i = 1; i <= totalPage; i++) {
+		%>
+		<a class="<%=currentPage == i ? "red" : ""%>" href="list?page=<%=i%>"><%=i%></a>
+		<%
+		}
+		%>
+	</div>
 
 </body>
 </html>
