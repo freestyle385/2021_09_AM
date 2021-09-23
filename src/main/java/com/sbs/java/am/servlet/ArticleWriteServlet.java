@@ -16,8 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.sbs.java.am.util.DBUtil;
 import com.sbs.java.am.util.SecSql;
 
-@WebServlet("/article/doDelete")
-public class ArticleDeleteServlet extends HttpServlet {
+@WebServlet("/article/doWrite")
+public class ArticleWriteServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -43,14 +43,16 @@ public class ArticleDeleteServlet extends HttpServlet {
 
 		try {
 			con = DriverManager.getConnection(url, user, password);
-			int id = Integer.parseInt(request.getParameter("id"));
+			String title = request.getParameter("title");
+			String body = request.getParameter("body");
 			
-			SecSql sql = SecSql.from("DELETE");
-			sql.append("FROM article");
-			sql.append("WHERE id = ?", id);
+			SecSql sql = SecSql.from("INSERT INTO article");
+			sql.append("SET regDate = NOW()");
+			sql.append(", title = ?", title);
+			sql.append(", `body` = ?", body);
 			
-			DBUtil.delete(con, sql);
-			response.getWriter().append(String.format("<script> alert('%d번 글이 삭제되었습니다.'); location.replace('list'); </script>", id));
+			int id = DBUtil.insert(con, sql);
+			response.getWriter().append(String.format("<script> alert('%d번 글이 생성되었습니다.'); location.replace('list'); </script>", id));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
