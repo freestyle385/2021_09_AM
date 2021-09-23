@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,12 +14,13 @@ import javax.servlet.http.HttpServletResponse;
 import com.sbs.java.am.util.DBUtil;
 import com.sbs.java.am.util.SecSql;
 
-@WebServlet("/article/list")
-public class ArticleListServlet extends HttpServlet {
-	
+@WebServlet("/article/doWrite")
+public class ArticleDoWriteServlet extends HttpServlet {
+
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 
 		String url = "jdbc:mysql://localhost:3306/am?serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeBehavior=convertToNull";
@@ -44,41 +43,17 @@ public class ArticleListServlet extends HttpServlet {
 
 		try {
 			con = DriverManager.getConnection(url, user, password);
+			String title = request.getParameter("title");
+			String body = request.getParameter("body");
 
-			int page = 1;
+			SecSql sql = SecSql.from("INSERT INTO article");
+			sql.append("SET regDate = NOW()");
+			sql.append(", title = ?", title);
+			sql.append(", `body` = ?", body);
 
-			if (request.getParameter("page") != null && request.getParameter("page").length() != 0) {
-				try {
-					page = Integer.parseInt(request.getParameter("page"));
-				} catch (NumberFormatException e) {
-
-				}
-			}
-
-			int itemsInAPage = 30; 
-			// 페이지별 노출되는 게시물 개수
-			int limitFrom = (page - 1) * itemsInAPage; 
-			// 해당 페이지에서의 리스팅 시작점 
-
-			SecSql sql = SecSql.from("SELECT COUNT(*) AS cnt");
-			sql.append("FROM article");
-
-			int totalCount = DBUtil.selectRowIntValue(con, sql); 
-			// 게시물의 총 개수
-			int totalPage = (int) Math.ceil((double) totalCount / itemsInAPage); 
-			// 페이지의 총 개수(게시물의 총 개수 / 페이지 별 게시물 개수)
-
-			sql = SecSql.from("SELECT *");
-			sql.append("FROM article");
-			sql.append("ORDER BY id DESC");
-			sql.append("LIMIT ?, ?", limitFrom, itemsInAPage);
-
-			List<Map<String, Object>> articleRows = DBUtil.selectRows(con, sql);
-			request.setAttribute("articleRows", articleRows);
-			request.setAttribute("page", page);
-			request.setAttribute("totalPage", totalPage);
-			request.getRequestDispatcher("/jsp/article/list.jsp").forward(request, response);
-
+			int id = DBUtil.insert(con, sql);
+			response.getWriter().append(
+					String.format("<script> alert('%d번 글이 생성되었습니다.'); location.replace('list'); </script>", id));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -96,4 +71,5 @@ public class ArticleListServlet extends HttpServlet {
 			throws ServletException, IOException {
 		doGet(request, response);
 	}
+
 }

@@ -17,6 +17,11 @@ int totalPage = (int) request.getAttribute("totalPage");
 <body>
 
 	<h1>게시물 리스트</h1>
+	
+	<div>
+		<a href="write">글쓰기</a>
+	</div>
+	
 	<!-- 향상된 for문 버전 -->
 	<table border="1">
 		<!-- 	<colgroup>
@@ -48,8 +53,8 @@ int totalPage = (int) request.getAttribute("totalPage");
 		</tbody>
 
 	</table>
-	
-<style type="text/css">
+
+	<style type="text/css">
 .page>a.red {
 	color: red;
 }
@@ -58,10 +63,10 @@ a {
 	color: inherit;
 	text-decoration: none;
 }
+
 a:hover {
 	color: blue;
 	text-decoration: underline;
-	
 }
 </style>
 
