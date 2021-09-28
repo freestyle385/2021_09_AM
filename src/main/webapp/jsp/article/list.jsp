@@ -71,15 +71,37 @@ a:hover {
 	text-decoration: underline;
 }
 </style>
-
+	
 	<div class="page">
+		
+		<%if (currentPage > 1) { %>
+		<a href="list?page=1">◀</a>
+		<%}%>
+		
 		<%
-		for (int i = 1; i <= totalPage; i++) {
+		int pageMenuSize = 10;
+		int from = currentPage - pageMenuSize;
+		
+		if (from < 1) {
+			from = 1;
+		}
+		
+		int end = currentPage + pageMenuSize;
+		
+		if (end > totalPage) {
+			end = totalPage;
+		}
+		
+		for (int i = from; i <= end; i++) {
 		%>
 		<a class="<%=currentPage == i ? "red" : ""%>" href="list?page=<%=i%>"><%=i%></a>
 		<%
 		}
 		%>
+		<%if (currentPage < totalPage) { %>
+		<a href="list?page=<%=totalPage%>">▶</a>
+		<%}%>
+		
 	</div>
 
 </body>
