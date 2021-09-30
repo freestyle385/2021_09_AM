@@ -20,7 +20,9 @@ int totalPage = (int) request.getAttribute("totalPage");
 	
 	<div>
 		<a href="write">글쓰기</a>
+		<a href="../home/main">홈 화면</a>
 	</div>
+	
 	
 	<!-- 향상된 for문 버전 -->
 	<table border="1">

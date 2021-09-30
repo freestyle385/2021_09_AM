@@ -57,12 +57,6 @@ public class MemberDoJoinServlet extends HttpServlet {
 						"<script> alert('%s(은)는 이미 사용 중인 아이디입니다.'); location.replace('join'); </script>", loginId));
 				return;
 			}
-			
-			if (loginPw.equals(loginPwConfirm) == false) {
-				response.getWriter().append(String.format(
-						"<script> alert('비밀번호가 일치하지 않습니다.'); location.replace('join'); </script>"));
-				return;
-			}
 
 			sql = SecSql.from("INSERT INTO `member`");
 			sql.append("SET regDate = NOW()");
@@ -70,7 +64,7 @@ public class MemberDoJoinServlet extends HttpServlet {
 			sql.append(", loginPw = ?", loginPw);
 			sql.append(", `name` = ?", userName);
 
-			int id = DBUtil.insert(con, sql);
+			DBUtil.insert(con, sql);
 			response.getWriter().append(String
 					.format("<script> alert('%s님, 환영합니다!'); location.replace('../home/main'); </script>", userName));
 		} catch (SQLException e) {
