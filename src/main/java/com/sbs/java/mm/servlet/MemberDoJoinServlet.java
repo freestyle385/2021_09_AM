@@ -54,7 +54,8 @@ public class MemberDoJoinServlet extends HttpServlet {
 
 			if (isLoginIdDup) {
 				response.getWriter().append(String.format(
-						"<script> alert('%s(은)는 이미 사용 중인 아이디입니다.'); location.replace('join'); </script>", loginId));
+						"<script> alert('%s(은)는 이미 사용 중인 아이디입니다.'); history.back(); </script>", loginId));
+				// history.back() : 이전으로 돌아가기
 				return;
 			}
 

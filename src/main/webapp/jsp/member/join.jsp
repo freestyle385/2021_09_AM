@@ -68,21 +68,22 @@
 		<!-- get보다 post가 보안성, 생성 가능 분량 면에서 효율적 -->
 
 		<div>
-			아이디 : <input autocomplete="off" placeholder="아이디를 입력해주세요."
+			아이디 : <input placeholder="아이디를 입력해주세요."
 				name="loginId" type="text" />
 		</div>
-		<!-- autocomplete : 자동 검색 여부 설정 -->
+		<!-- autocomplete="off" : 자동 검색 끄기-->
+		<!-- autocomplete이 켜져있을 경우, history.back()을 하면 기 입력된 내용이 저장되어 있음-->
 		<div>
-			비밀번호 : <input autocomplete="off" placeholder="비밀번호를 입력해주세요."
+			비밀번호 : <input placeholder="비밀번호를 입력해주세요."
 				name="loginPw" type="password" />
 		</div>
 		<div>
-			비밀번호 확인 : <input autocomplete="off"
+			비밀번호 확인 : <input
 				placeholder="비밀번호를 다시 한 번 입력해주세요." name="loginPwConfirm"
 				type="password" />
 		</div>
 		<div>
-			이름 : <input autocomplete="off" placeholder="사용자 이름을 입력해주세요."
+			이름 : <input placeholder="사용자 이름을 입력해주세요."
 				name="userName" type="text" />
 		</div>
 		<div>
