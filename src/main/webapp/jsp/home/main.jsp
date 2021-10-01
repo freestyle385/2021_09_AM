@@ -16,5 +16,11 @@
 	<div>
 		<a href="../member/join">회원 가입</a>
 	</div>
+	<div>
+		<a href="../member/login">회원 로그인</a>
+	</div>
+	<div>
+		<a href="../member/logout">회원 로그아웃</a>
+	</div>
 </body>
 </html>
