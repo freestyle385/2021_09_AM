@@ -43,49 +43,32 @@ public class MemberDoLoginServlet extends HttpServlet {
 
 		try {
 			con = DriverManager.getConnection(Config.getDBurl(), Config.getDBId(), Config.getDBPw());
-			String inputLoginId = request.getParameter("loginId");
-			String inputLoginPw = request.getParameter("loginPw");
+			String loginId = request.getParameter("loginId");
+			String loginPw = request.getParameter("loginPw");
 
-			// 아이디 존재 여부 확인
-			SecSql sql = SecSql.from("SELECT COUNT(*) > 0");
+			SecSql sql = SecSql.from("SELECT *");
 			sql.append("FROM `member`");
-			sql.append("WHERE loginId = ?", inputLoginId);
-			// loginId와 동일한 아이디가 있다면, 'SELECT COUNT(*) > 0' 식이 참이므로 1(true), 없다면 0(false)
+			sql.append("WHERE loginId = ?", loginId);
 
-			boolean isLoginIdDup = DBUtil.selectRowBooleanValue(con, sql);
+			Map<String, Object> memberRow = DBUtil.selectRow(con, sql);
 
-			if (isLoginIdDup == false) {
-				response.getWriter().append(String
-						.format("<script> alert('%s(은)는 존재하지 않는 아이디입니다.'); history.back(); </script>", inputLoginId));
-				// history.back() : 이전으로 돌아가기
+			if (memberRow.isEmpty()) {
+				response.getWriter().append(
+						String.format("<script> alert('%s (은)는 존재하지 않는 회원입니다.'); history.back(); </script>", loginId));
 				return;
 			}
 
-			// 비밀번호 일치 여부 확인
-			sql = SecSql.from("SELECT *");
-			sql.append("FROM `member`");
-			sql.append("WHERE loginId = ?", inputLoginId);
-
-			Map<String, Object> MemberMap = DBUtil.selectRow(con, sql);
-
-			String loginId = (String) MemberMap.get("loginId");
-			String loginPw = (String) MemberMap.get("loginPw");
-			String userName = (String) MemberMap.get("name");
-
-			if (inputLoginPw.equals(loginPw) == false) {
-				response.getWriter()
-						.append(String.format("<script> alert('비밀번호가 일치하지 않습니다.'); history.back(); </script>"));
-				// history.back() : 이전으로 돌아가기
+			if (((String) memberRow.get("loginPw")).equals(loginPw) == false) {
+				response.getWriter().append(
+						String.format("<script> alert('비밀번호가 일치하지 않습니다.'); history.back(); </script>"));
 				return;
 			}
 
-			// 세션 생성
 			HttpSession session = request.getSession();
-			session.setAttribute("sessionLoginId", loginId);
-			session.setAttribute("sessionUserName", userName);
+			session.setAttribute("loginedMemberId", memberRow.get("id"));
 
 			response.getWriter().append(String
-					.format("<script> alert('%s님, 환영합니다!'); location.replace('../home/main'); </script>", userName));
+					.format("<script> alert('%s님, 환영합니다!'); location.replace('../home/main'); </script>", loginId));
 
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -10,11 +10,11 @@
 	<h1>회원 로그인</h1>
 
 	<script>
-		var JoinForm_submitDone = false;
+		var LoginForm_submitDone = false;
 		// 입력 여부 체크, 비밀번호 일치 여부 체크
 		// 다중 클릭으로 인해, 대량의 동일한 submit이 이루어지지 않도록 submit 통제(JoinForm_submitDone)
-		function JoinForm_submit(form) {
-			if (JoinForm_submitDone) {
+		function LoginForm_submit(form) {
+			if (LoginForm_submitDone) {
 				alert('처리 중입니다.');
 				return;
 			}
@@ -36,7 +36,7 @@
 			}
 
 			form.submit();
-			JoinForm_submitDone = true;
+			LoginForm_submitDone = true;
 		}
 	</script>
 
