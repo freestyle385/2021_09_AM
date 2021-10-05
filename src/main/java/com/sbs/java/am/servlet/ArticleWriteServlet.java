@@ -15,14 +15,13 @@ public class ArticleWriteServlet extends HttpServlet {
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
-		
+
 		// 세션 정보 받아오기 및 로그인 상태 확인
 		HttpSession session = request.getSession();
-		String sessionLoginId = (String) session.getAttribute("sessionLoginId");
 
-		if (sessionLoginId == null) {
-			response.getWriter().append(String.format("<script> alert('로그인 후 이용해주세요.'); history.back(); </script>"));
-			// history.back() : 이전으로 돌아가기
+		if (session.getAttribute("loginedMemberId") == null) {
+			response.getWriter().append(
+					String.format("<script> alert('로그인 후 이용해주세요.'); location.replace('../member/login'); </script>"));
 			return;
 		}
 

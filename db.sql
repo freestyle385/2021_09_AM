@@ -8,7 +8,8 @@ CREATE TABLE article(
     id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     regDate DATETIME NOT NULL,
     title CHAR(255) NOT NULL,
-    `body` LONGTEXT NOT NULL
+    `body` LONGTEXT NOT NULL,
+    memberId INT(10) NOT NULL
 );
 
 #회원 테이블 생성
@@ -24,34 +25,51 @@ CREATE TABLE `member` (
 INSERT INTO article 
 SET regDate = NOW(),
 title = '제목1',
-`body` = '내용1';
+`body` = '내용1',
+memberId = 1;
 
 INSERT INTO article 
 SET regDate = NOW(),
 title = '제목2',
-`body` = '내용2';
+`body` = '내용2',
+memberId = 1;
 
 INSERT INTO article 
 SET regDate = NOW(),
 title = '제목3',
-`body` = '내용3';
+`body` = '내용3',
+memberId = 2;
 
 INSERT INTO article 
 SET regDate = NOW(),
 title = '제목4',
-`body` = '내용4';
+`body` = '내용4',
+memberId = 3;
 
 INSERT INTO article 
 SET regDate = NOW(),
 title = CONCAT('제목__',RAND()),
-`body` = CONCAT('내용__',RAND());
+`body` = CONCAT('내용__',RAND()),
+memberId = 1;
 
 # 회원 데이터 추가 
 INSERT INTO `member` 
 SET regDate = NOW(),
 loginId = 'test1',
-loginPw = SHA2('test1',256),
+loginPw = 'test1',
 `name` = '홍길동';
+
+INSERT INTO `member` 
+SET regDate = NOW(),
+loginId = 'test2',
+loginPw = 'test2',
+`name` = '임꺽정';
+
+INSERT INTO `member` 
+SET regDate = NOW(),
+loginId = 'test3',
+loginPw = 'test3',
+`name` = '장길산';
 
 SELECT SHA2('test1',256)
 
