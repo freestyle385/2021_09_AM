@@ -44,7 +44,8 @@ public class HomeMainServlet extends HttpServlet {
 
 		try {
 			con = DriverManager.getConnection(Config.getDBurl(), Config.getDBId(), Config.getDBPw());
-
+			
+			// topBar
 			HttpSession session = request.getSession();
 
 			boolean isLogined = false;

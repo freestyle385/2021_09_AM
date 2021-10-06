@@ -18,6 +18,8 @@ int totalPage = (int) request.getAttribute("totalPage");
 
 	<h1>게시물 리스트</h1>
 	
+	<%@ include file="../part/topBar.jspf" %>
+	
 	<div>
 		<a href="write">글쓰기</a>
 		<a href="../home/main">홈 화면</a>

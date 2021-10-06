@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.sbs.java.am.Config;
 import com.sbs.java.am.exception.SQLErrorException;
@@ -20,7 +21,7 @@ import com.sbs.java.am.util.SecSql;
 
 @WebServlet("/article/list")
 public class ArticleListServlet extends HttpServlet {
-	
+
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -43,6 +44,27 @@ public class ArticleListServlet extends HttpServlet {
 		try {
 			con = DriverManager.getConnection(Config.getDBurl(), Config.getDBId(), Config.getDBPw());
 
+			// topBar
+			HttpSession session = request.getSession();
+
+			boolean isLogined = false;
+			int loginedMemberId = -1;
+			Map<String, Object> loginedMemberRow = null;
+
+			if (session.getAttribute("loginedMemberId") != null) {
+				loginedMemberId = (int) session.getAttribute("loginedMemberId");
+				isLogined = true;
+
+				SecSql sql = SecSql.from("SELECT * FROM `member`");
+				sql.append("WHERE id = ?", loginedMemberId);
+				loginedMemberRow = DBUtil.selectRow(con, sql);
+			}
+
+			request.setAttribute("isLogined", isLogined);
+			request.setAttribute("loginedMemberId", loginedMemberId);
+			request.setAttribute("loginedMemberRow", loginedMemberRow);
+			
+			// 게시물 불러오기
 			int page = 1;
 
 			if (request.getParameter("page") != null && request.getParameter("page").length() != 0) {
@@ -53,17 +75,17 @@ public class ArticleListServlet extends HttpServlet {
 				}
 			}
 
-			int itemsInAPage = 30; 
+			int itemsInAPage = 30;
 			// 페이지별 노출되는 게시물 개수
-			int limitFrom = (page - 1) * itemsInAPage; 
-			// 해당 페이지에서의 리스팅 시작점 
+			int limitFrom = (page - 1) * itemsInAPage;
+			// 해당 페이지에서의 리스팅 시작점
 
 			SecSql sql = SecSql.from("SELECT COUNT(*) AS cnt");
 			sql.append("FROM article");
 
-			int totalCount = DBUtil.selectRowIntValue(con, sql); 
+			int totalCount = DBUtil.selectRowIntValue(con, sql);
 			// 게시물의 총 개수
-			int totalPage = (int) Math.ceil((double) totalCount / itemsInAPage); 
+			int totalPage = (int) Math.ceil((double) totalCount / itemsInAPage);
 			// 페이지의 총 개수(게시물의 총 개수 / 페이지 별 게시물 개수)
 
 			sql = SecSql.from("SELECT *");
@@ -91,6 +113,7 @@ public class ArticleListServlet extends HttpServlet {
 			}
 		}
 	}
+
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

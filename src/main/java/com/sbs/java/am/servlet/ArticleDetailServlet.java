@@ -51,6 +51,27 @@ public class ArticleDetailServlet extends HttpServlet {
 
 		try {
 			con = DriverManager.getConnection(Config.getDBurl(), Config.getDBId(), Config.getDBPw());
+			
+			// topBar
+			boolean isLogined = false;
+			int loginedMemberId = -1;
+			Map<String, Object> loginedMemberRow = null;
+
+			if (session.getAttribute("loginedMemberId") != null) {
+				loginedMemberId = (int) session.getAttribute("loginedMemberId");
+				isLogined = true;
+
+				SecSql sql = SecSql.from("SELECT * FROM `member`");
+				sql.append("WHERE id = ?", loginedMemberId);
+				loginedMemberRow = DBUtil.selectRow(con, sql);
+			}
+
+			request.setAttribute("isLogined", isLogined);
+			request.setAttribute("loginedMemberId", loginedMemberId);
+			request.setAttribute("loginedMemberRow", loginedMemberRow);
+			
+			
+			// 게시물 불러오기
 			int id = Integer.parseInt(request.getParameter("id"));
 
 			SecSql sql = SecSql.from("SELECT *");
