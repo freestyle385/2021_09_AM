@@ -14,18 +14,21 @@ import javax.servlet.http.HttpSession;
 
 import com.sbs.java.am.Config;
 import com.sbs.java.am.exception.SQLErrorException;
+import com.sbs.java.am.service.ArticleService;
 import com.sbs.java.am.util.DBUtil;
 import com.sbs.java.am.util.SecSql;
 
 @WebServlet("/article/doWrite")
 public class ArticleDoWriteServlet extends HttpServlet {
 
+	private ArticleService articleService;
+
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
-
+		
 		// 커넥터 드라이버 활성화
 		String driverName = Config.getDBDriverClassName();
 
@@ -48,13 +51,8 @@ public class ArticleDoWriteServlet extends HttpServlet {
 			HttpSession session = request.getSession();
 			int loginedMemberId = (int) session.getAttribute("loginedMemberId");
 			
-			SecSql sql = SecSql.from("INSERT INTO article");
-			sql.append("SET regDate = NOW()");
-			sql.append(", title = ?", title);
-			sql.append(", `body` = ?", body);
-			sql.append(", memberId = ?", loginedMemberId);
-
-			int id = DBUtil.insert(con, sql);
+			int id = articleService.doWrite(con, title, body, loginedMemberId);
+			
 			response.getWriter().append(
 					String.format("<script> alert('%d번 글이 생성되었습니다.'); location.replace('list'); </script>", id));
 		} catch (SQLException e) {

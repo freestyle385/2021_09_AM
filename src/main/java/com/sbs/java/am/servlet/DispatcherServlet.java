@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.sbs.java.am.Config;
+import com.sbs.java.am.container.Container;
 import com.sbs.java.am.controller.ArticleController;
 import com.sbs.java.am.exception.SQLErrorException;
 import com.sbs.java.am.util.DBUtil;
@@ -45,7 +46,7 @@ public class DispatcherServlet extends HttpServlet {
 		try {
 			con = DriverManager.getConnection(Config.getDBurl(), Config.getDBId(), Config.getDBPw());
 
-			// topBar 시작(모든 요청 진입 전 실행)
+			// topBar(모든 요청 진입 전 실행) 시작
 			HttpSession session = request.getSession();
 
 			boolean isLogined = false;
@@ -64,7 +65,7 @@ public class DispatcherServlet extends HttpServlet {
 			request.setAttribute("isLogined", isLogined);
 			request.setAttribute("loginedMemberId", loginedMemberId);
 			request.setAttribute("loginedMemberRow", loginedMemberRow);
-			// topBar 시작(모든 요청 진입 전 실행)
+			// topBar(모든 요청 진입 전 실행) 끝
 			
 			String requestUri = request.getRequestURI();
 			String[] requestUriBits = requestUri.split("/");
@@ -78,10 +79,12 @@ public class DispatcherServlet extends HttpServlet {
 			String actionMethodName = requestUriBits[4];
 
 			if (controllerName.equals("article")) {
-				ArticleController controller = new ArticleController(request, response, con);
+				ArticleController controller = Container.articleController(request, response, con);
 
 				if (actionMethodName.equals("list")) {
 					controller.actionList();
+				} else if (actionMethodName.equals("write")) {
+					controller.actionWrite();
 				}
 			}
 
