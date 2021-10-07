@@ -10,7 +10,7 @@
 <body>
 	<h1>게시물 작성</h1>
 
-	<form action="doWrite" method="POST">
+	<form action="/s/doWrite" method="POST">
 	<!-- get보다 post가 보안성, 생성 가능 분량 면에서 효율적 -->
 
 		<div>
@@ -25,7 +25,7 @@
 		<div>
 			<button type="submit">작성</button>
 			<!-- <input type="submit" value="작성" /> 도 동일한 기능-->
-			<a href="list">리스트</a>
+			<a href="/s/list">리스트</a>
 		</div>
 		
 	</form>

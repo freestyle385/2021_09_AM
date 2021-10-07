@@ -49,9 +49,9 @@ int totalPage = (int) request.getAttribute("totalPage");
 			<tr>
 				<td><%=articleRow.get("id")%></td>
 				<td><%=articleRow.get("regDate")%></td>
-				<td><a href="detail?id=<%=(int) articleRow.get("id")%>"><%=(String) articleRow.get("title")%></a></td>
-				<td><a href="modify?id=<%=(int) articleRow.get("id")%>">수정</a></td>
-				<td><a href="doDelete?id=<%=(int) articleRow.get("id")%>">삭제</a></td>
+				<td><a href="/s/detail?id=<%=(int) articleRow.get("id")%>"><%=(String) articleRow.get("title")%></a></td>
+				<td><a href="/s/modify?id=<%=(int) articleRow.get("id")%>">수정</a></td>
+				<td><a href="/s/doDelete?id=<%=(int) articleRow.get("id")%>">삭제</a></td>
 			</tr>
 			<%
 			}
