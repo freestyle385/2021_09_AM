@@ -11,8 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.sbs.java.am.service.ArticleService;
-import com.sbs.java.am.util.DBUtil;
-import com.sbs.java.am.util.SecSql;
 
 public class ArticleController {
 
@@ -29,7 +27,7 @@ public class ArticleController {
 		articleService = new ArticleService(con);
 	}
 
-	public void actionList() throws ServletException, IOException {
+	public void showList() throws ServletException, IOException {
 		int page = 1;
 
 		if (request.getParameter("page") != null && request.getParameter("page").length() != 0) {
@@ -45,7 +43,7 @@ public class ArticleController {
 		request.getRequestDispatcher("/jsp/article/list.jsp").forward(request, response);
 	}
 
-	public void actionDetail() throws ServletException, IOException {
+	public void showDetail() throws ServletException, IOException {
 		// 로그인 상태 확인 및 topBar의 로그인 회원 정보 생성
 		int loginedMemberId = setLoginedMemberInfo();
 		
@@ -63,17 +61,17 @@ public class ArticleController {
 		request.getRequestDispatcher("/jsp/article/detail.jsp").forward(request, response);
 	}
 
-	public void actionWrite() {
+	public void doWrite() {
 		// TODO Auto-generated method stub
 
 	}
 
-	public void actionModify() {
+	public void doModify() {
 		// TODO Auto-generated method stub
 
 	}
 
-	public void actionDelete() {
+	public void doDelete() {
 		// TODO Auto-generated method stub
 
 	}

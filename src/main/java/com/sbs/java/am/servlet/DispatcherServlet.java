@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import com.sbs.java.am.Config;
 import com.sbs.java.am.controller.ArticleController;
+import com.sbs.java.am.controller.MemberController;
 import com.sbs.java.am.exception.SQLErrorException;
 import com.sbs.java.am.util.DBUtil;
 import com.sbs.java.am.util.SecSql;
@@ -81,15 +82,35 @@ public class DispatcherServlet extends HttpServlet {
 				ArticleController controller = new ArticleController(request, response, con);
 
 				if (actionMethodName.equals("list")) {
-					controller.actionList();
+					controller.showList();
 				} else if (actionMethodName.equals("detail")) {
-					controller.actionDetail();
+					controller.showDetail();
 				} else if (actionMethodName.equals("write")) {
-					controller.actionWrite();
+					controller.doWrite();
 				} else if (actionMethodName.equals("modify")) {
-					controller.actionModify();
+					controller.doModify();
 				} else if (actionMethodName.equals("delete")) {
-					controller.actionDelete();
+					controller.doDelete();
+				} else {
+					response.getWriter().append("올바른 요청이 아닙니다.");
+					return;
+				}
+			} else if (controllerName.equals("member")) {
+				MemberController controller = new MemberController(request, response, con);
+
+				if (actionMethodName.equals("join")) {
+					controller.join();
+				} else if (actionMethodName.equals("login")) {
+					controller.login();
+				} else if (actionMethodName.equals("doLogout")) {
+					controller.doLogout();
+				} else if (actionMethodName.equals("doJoin")) {
+					controller.doJoin();
+				} else if (actionMethodName.equals("doLogin")) {
+					controller.doLogin();
+				} else {
+					response.getWriter().append("올바른 요청이 아닙니다.");
+					return;
 				}
 			}
 		} catch (SQLException e) {

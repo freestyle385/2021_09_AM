@@ -62,7 +62,7 @@
 		}
 	</script>
 
-	<form action="doJoin" method="POST"
+	<form action="/AM/s/member/doJoin" method="POST"
 		onsubmit="JoinForm_submit(this); return false;">
 		<!-- submit 버튼의 form 전송기능을 막아놓고(return false;) JoinForm_submit 메소드 실행 -->
 		<!-- get보다 post가 보안성, 생성 가능 분량 면에서 효율적 -->
@@ -91,7 +91,7 @@
 			<!-- <input type="submit" value="작성" /> 도 동일한 기능-->
 			<button type="button">
 				<!-- button type 입력 필수(디폴트인 form 전송을 막기 위해) -->
-				<a href="../home/main">취소</a>
+				<a href="/AM/s/home/main">취소</a>
 			</button>
 
 		</div>
