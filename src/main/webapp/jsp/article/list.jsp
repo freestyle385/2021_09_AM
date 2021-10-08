@@ -1,6 +1,6 @@
 <%@ page import="java.util.List"%>
-<%@ page import="java.util.Map"%>
 <%@ page import="com.sbs.java.am.dto.Article"%>
+<%@page import="com.sbs.java.am.dto.Member" %>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>

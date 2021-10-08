@@ -1,5 +1,4 @@
-<%@page import="java.util.List"%>
-<%@page import="java.util.Map"%>
+<%@page import="com.sbs.java.am.dto.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
@@ -12,8 +11,18 @@
 <body>
 
 	<h1>메인페이지</h1>
-	
-	<%@ include file="../part/topBar.jspf" %>
-	
+
+	<%@ include file="../part/topBar.jspf"%>
+
+	<div>
+		<%
+		if (!isLogined) {
+		%>
+		<a href="../s/member/join">회원 가입</a>
+		<%
+		}
+		%>
+	</div>
+
 </body>
 </html>

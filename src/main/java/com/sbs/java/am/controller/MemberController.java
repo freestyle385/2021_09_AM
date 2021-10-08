@@ -2,13 +2,13 @@ package com.sbs.java.am.controller;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.sbs.java.am.dto.Member;
 import com.sbs.java.am.service.MemberService;
 
 public class MemberController {
@@ -57,21 +57,21 @@ public class MemberController {
 		String loginId = request.getParameter("loginId");
 		String loginPw = request.getParameter("loginPw");
 
-		Map<String, Object> memberRow = memberService.getMemberRowByLoginId(loginId, loginPw);
+		Member member = memberService.getMemberByLoginId(loginId, loginPw);
 
-		if (memberRow.isEmpty()) {
+		if (member == null) {
 			response.getWriter().append(
 					String.format("<script> alert('%s (은)는 존재하지 않는 회원입니다.'); history.back(); </script>", loginId));
 			return;
 		}
 
-		if (((String) memberRow.get("loginPw")).equals(loginPw) == false) {
+		if (member.loginPw.equals(loginPw) == false) {
 			response.getWriter().append(String.format("<script> alert('비밀번호가 일치하지 않습니다.'); history.back(); </script>"));
 			return;
 		}
 
 		HttpSession session = request.getSession();
-		session.setAttribute("loginedMemberId", memberRow.get("id"));
+		session.setAttribute("loginedMemberId", member.id);
 
 		response.getWriter().append(
 				String.format("<script> alert('%s님, 환영합니다!'); location.replace('/AM/home/main'); </script>", loginId));

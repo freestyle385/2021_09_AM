@@ -1,11 +1,11 @@
-<%@ page import="java.util.Map"%>
 <%@ page import="com.sbs.java.am.dto.Article"%>
+<%@ page import="com.sbs.java.am.dto.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
 <%
 Article article = (Article) request.getAttribute("article");
-Map<String, Object> memberRow = (Map<String, Object>) request.getAttribute("memberRow");
+Member member = (Member) request.getAttribute("member");
 %>
 
 <!DOCTYPE html>
@@ -29,7 +29,7 @@ Map<String, Object> memberRow = (Map<String, Object>) request.getAttribute("memb
 		<%=article.regDate%></div>
 	<div>
 		작성자 :
-		<%=memberRow.get("name")%></div>
+		<%=member.name%></div>
 	<div>
 		제목 :
 		<%=article.title%></div>

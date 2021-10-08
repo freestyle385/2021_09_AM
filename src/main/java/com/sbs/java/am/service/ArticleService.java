@@ -50,11 +50,6 @@ public class ArticleService {
 		return articleDao.getArticle(id);
 	}
 
-	public Map<String, Object> getLoginedMemberRow(int loginedMemberId) {
-
-		return articleDao.getLoginedMemberRow(loginedMemberId);
-	}
-
 	public int doWrite(String title, String body, int loginedMemberId) {
 		return articleDao.doWrite(title, body, loginedMemberId);
 	}

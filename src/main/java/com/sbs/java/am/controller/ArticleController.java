@@ -3,7 +3,6 @@ package com.sbs.java.am.controller;
 import java.io.IOException;
 import java.sql.Connection;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.sbs.java.am.dto.Article;
+import com.sbs.java.am.dto.Member;
 import com.sbs.java.am.service.ArticleService;
 import com.sbs.java.am.service.MemberService;
 
@@ -62,10 +62,10 @@ public class ArticleController {
 		
 		// 게시물의 memberId로 memberRow 불러오기(작성자 이름 불러오기)
 		int memberId = article.memberId;
-		Map<String, Object> memberRow = memberService.getMemberRowByMemberId(memberId);
+		Member member = memberService.getMemberById(memberId);
 		
 		request.setAttribute("article", article);
-		request.setAttribute("memberRow", memberRow);
+		request.setAttribute("member", member);
 		request.getRequestDispatcher("/jsp/article/detail.jsp").forward(request, response);
 	}
 
@@ -143,7 +143,7 @@ public class ArticleController {
 
 		if (loginedMemberId != article.memberId) {
 			response.getWriter().append(
-					String.format("<script> alert('수정 권한이 없습니다.'); location.replace('list'); </script>"));
+					String.format("<script> alert('삭제 권한이 없습니다.'); location.replace('list'); </script>"));
 			return;
 		}
 		
@@ -159,18 +159,18 @@ public class ArticleController {
 
 		boolean isLogined = false;
 		int loginedMemberId = -1;
-		Map<String, Object> loginedMemberRow = null;
+		Member loginedMember = null;
 
 		if (session.getAttribute("loginedMemberId") != null) {
 			loginedMemberId = (int) session.getAttribute("loginedMemberId");
 			isLogined = true;
 
-			loginedMemberRow = articleService.getLoginedMemberRow(loginedMemberId);
+			loginedMember = memberService.getLoginedMemberById(loginedMemberId);
 		}
 
 		request.setAttribute("isLogined", isLogined);
 		request.setAttribute("loginedMemberId", loginedMemberId);
-		request.setAttribute("loginedMemberRow", loginedMemberRow);
+		request.setAttribute("loginedMember", loginedMember);
 
 		return loginedMemberId;
 	}

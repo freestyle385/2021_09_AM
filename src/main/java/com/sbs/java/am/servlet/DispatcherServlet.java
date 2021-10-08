@@ -23,6 +23,8 @@ import com.sbs.java.am.util.SecSql;
 @WebServlet("/s/*")
 public class DispatcherServlet extends HttpServlet {
 
+	private ArticleController articleController;
+
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -46,26 +48,9 @@ public class DispatcherServlet extends HttpServlet {
 		try {
 			con = DriverManager.getConnection(Config.getDBurl(), Config.getDBId(), Config.getDBPw());
 
-			// topBar 시작(모든 요청 진입 전 실행)
-			HttpSession session = request.getSession();
-
-			boolean isLogined = false;
-			int loginedMemberId = -1;
-			Map<String, Object> loginedMemberRow = null;
-
-			if (session.getAttribute("loginedMemberId") != null) {
-				loginedMemberId = (int) session.getAttribute("loginedMemberId");
-				isLogined = true;
-
-				SecSql sql = SecSql.from("SELECT * FROM `member`");
-				sql.append("WHERE id = ?", loginedMemberId);
-				loginedMemberRow = DBUtil.selectRow(con, sql);
-			}
-
-			request.setAttribute("isLogined", isLogined);
-			request.setAttribute("loginedMemberId", loginedMemberId);
-			request.setAttribute("loginedMemberRow", loginedMemberRow);
-			// topBar 시작(모든 요청 진입 전 실행)
+			// topBar (모든 요청 진입 전 실행)
+			articleController = new ArticleController(request, response, con);
+			articleController.setLoginedMemberInfo();
 
 			String requestUri = request.getRequestURI();
 			String[] requestUriBits = requestUri.split("/");

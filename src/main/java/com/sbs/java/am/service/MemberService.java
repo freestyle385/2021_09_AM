@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.util.Map;
 
 import com.sbs.java.am.dao.MemberDao;
+import com.sbs.java.am.dto.Member;
 
 public class MemberService {
 
@@ -23,12 +24,16 @@ public class MemberService {
 		memberDao.doJoin(loginId, loginPw, userName);
 	}
 
-	public Map<String, Object> getMemberRowByLoginId(String loginId, String loginPw) {
-		return memberDao.getMemberRowByLoginId(loginId, loginPw);
+	public Member getMemberByLoginId(String loginId, String loginPw) {
+		return memberDao.getMemberByLoginId(loginId, loginPw);
 	}
 
-	public Map<String, Object> getMemberRowByMemberId(int memberId) {
-		return memberDao.getMemberRowByMemberId(memberId);
+	public Member getMemberById(int memberId) {
+		return memberDao.getMemberById(memberId);
+	}
+	
+	public Member getLoginedMemberById(int loginedMemberId) {
+		return memberDao.getLoginedMemberById(loginedMemberId);
 	}
 
 }

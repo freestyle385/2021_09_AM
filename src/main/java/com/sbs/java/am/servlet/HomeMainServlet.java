@@ -44,6 +44,7 @@ public class HomeMainServlet extends HttpServlet {
 		try {
 			con = DriverManager.getConnection(Config.getDBurl(), Config.getDBId(), Config.getDBPw());
 			
+			// topBar (모든 요청 진입 전 실행)
 			articleController = new ArticleController(request, response, con);
 			articleController.setLoginedMemberInfo();
 			

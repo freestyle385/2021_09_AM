@@ -3,6 +3,7 @@ package com.sbs.java.am.dao;
 import java.sql.Connection;
 import java.util.Map;
 
+import com.sbs.java.am.dto.Member;
 import com.sbs.java.am.util.DBUtil;
 import com.sbs.java.am.util.SecSql;
 
@@ -37,22 +38,37 @@ public class MemberDao {
 		DBUtil.insert(con, sql);
 	}
 
-	public Map<String, Object> getMemberRowByLoginId(String loginId, String loginPw) {
+	public Member getMemberByLoginId(String loginId, String loginPw) {
 		SecSql sql = SecSql.from("SELECT *");
 		sql.append("FROM `member`");
 		sql.append("WHERE loginId = ?", loginId);
 
 		Map<String, Object> memberRow = DBUtil.selectRow(con, sql);
-		return memberRow;
+		Member member = new Member(memberRow);
+		
+		return member;
 	}
 
-	public Map<String, Object> getMemberRowByMemberId(int memberId) {
+	public Member getMemberById(int memberId) {
 		SecSql sql = SecSql.from("SELECT *");
 		sql.append("FROM `member`");
 		sql.append("WHERE id = ?", memberId);
 
 		Map<String, Object> memberRow = DBUtil.selectRow(con, sql);
-		return memberRow;
+		Member member = new Member(memberRow);
+		
+		return member;
+	}
+	
+	public Member getLoginedMemberById(int loginedMemberId) {
+
+		SecSql sql = SecSql.from("SELECT * FROM `member`");
+		sql.append("WHERE id = ?", loginedMemberId);
+
+		Map<String, Object> loginedMemberRow = DBUtil.selectRow(con, sql);
+		Member loginedMember = new Member(loginedMemberRow);
+		
+		return loginedMember;
 	}
 
 }

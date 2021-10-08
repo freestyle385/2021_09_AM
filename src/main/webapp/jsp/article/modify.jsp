@@ -1,4 +1,3 @@
-<%@ page import="java.util.Map"%>
 <%@ page import="com.sbs.java.am.dto.Article"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
