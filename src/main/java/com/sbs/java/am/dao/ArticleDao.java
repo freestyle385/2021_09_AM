@@ -35,4 +35,25 @@ public class ArticleDao {
 		return articleRows;
 	}
 
+	public Map<String, Object> getLoginedMemberRow(int loginedMemberId) {
+		
+		SecSql sql = SecSql.from("SELECT * FROM `member`");
+		sql.append("WHERE id = ?", loginedMemberId);
+		
+		Map<String, Object> loginedMemberRow = DBUtil.selectRow(con, sql);
+		
+		return loginedMemberRow;
+	}
+
+	public Map<String, Object> getArticleRow(int id) {
+		
+		SecSql sql = SecSql.from("SELECT *");
+		sql.append("FROM article");
+		sql.append("WHERE id = ?", id);
+
+		Map<String, Object> articleRow = DBUtil.selectRow(con, sql);
+		
+		return articleRow;
+	}
+
 }

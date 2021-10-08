@@ -8,6 +8,7 @@ List<Map<String, Object>> articleRows = (List<Map<String, Object>>) request.getA
 int currentPage = (int) request.getAttribute("page");
 int totalPage = (int) request.getAttribute("totalPage");
 %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,7 +22,7 @@ int totalPage = (int) request.getAttribute("totalPage");
 	<%@ include file="../part/topBar.jspf" %>
 	
 	<div>
-		<a href="write">글쓰기</a>
+		<a href="/AM/s/article/write">글쓰기</a>
 		<a href="../home/main">홈 화면</a>
 	</div>
 	
@@ -49,9 +50,9 @@ int totalPage = (int) request.getAttribute("totalPage");
 			<tr>
 				<td><%=articleRow.get("id")%></td>
 				<td><%=articleRow.get("regDate")%></td>
-				<td><a href="/s/detail?id=<%=(int) articleRow.get("id")%>"><%=(String) articleRow.get("title")%></a></td>
-				<td><a href="/s/modify?id=<%=(int) articleRow.get("id")%>">수정</a></td>
-				<td><a href="/s/doDelete?id=<%=(int) articleRow.get("id")%>">삭제</a></td>
+				<td><a href="/AM/s/article/detail?id=<%=(int) articleRow.get("id")%>"><%=(String) articleRow.get("title")%></a></td>
+				<td><a href="/AM/s/article/modify?id=<%=(int) articleRow.get("id")%>">수정</a></td>
+				<td><a href="/AM/s/article/doDelete?id=<%=(int) articleRow.get("id")%>">삭제</a></td>
 			</tr>
 			<%
 			}
@@ -79,7 +80,7 @@ a:hover {
 	<div class="page">
 		
 		<%if (currentPage > 1) { %>
-		<a href="list?page=1">◀</a>
+		<a href="/AM/s/article/list?page=1">◀</a>
 		<%}%>
 		
 		<%
@@ -98,12 +99,12 @@ a:hover {
 		
 		for (int i = from; i <= end; i++) {
 		%>
-		<a class="<%=currentPage == i ? "red" : ""%>" href="list?page=<%=i%>"><%=i%></a>
+		<a class="<%=currentPage == i ? "red" : ""%>" href="/AM/s/article/list?page=<%=i%>"><%=i%></a>
 		<%
 		}
 		%>
 		<%if (currentPage < totalPage) { %>
-		<a href="list?page=<%=totalPage%>">▶</a>
+		<a href="/AM/s/article/list?page=<%=totalPage%>">▶</a>
 		<%}%>
 		
 	</div>

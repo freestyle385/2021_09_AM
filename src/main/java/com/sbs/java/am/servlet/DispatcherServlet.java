@@ -65,7 +65,7 @@ public class DispatcherServlet extends HttpServlet {
 			request.setAttribute("loginedMemberId", loginedMemberId);
 			request.setAttribute("loginedMemberRow", loginedMemberRow);
 			// topBar 시작(모든 요청 진입 전 실행)
-			
+
 			String requestUri = request.getRequestURI();
 			String[] requestUriBits = requestUri.split("/");
 
@@ -82,9 +82,16 @@ public class DispatcherServlet extends HttpServlet {
 
 				if (actionMethodName.equals("list")) {
 					controller.actionList();
+				} else if (actionMethodName.equals("detail")) {
+					controller.actionDetail();
+				} else if (actionMethodName.equals("write")) {
+					controller.actionWrite();
+				} else if (actionMethodName.equals("modify")) {
+					controller.actionModify();
+				} else if (actionMethodName.equals("delete")) {
+					controller.actionDelete();
 				}
 			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (SQLErrorException e) {

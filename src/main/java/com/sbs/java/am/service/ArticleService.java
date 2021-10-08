@@ -45,5 +45,17 @@ public class ArticleService {
 
 		return articleRows;
 	}
+	
+	public Map<String, Object> getForPrintArticleRow(int id) {
+
+		return articleDao.getArticleRow(id);
+	}
+
+	public Map<String, Object> getLoginedMemberRow(int loginedMemberId) {
+
+		return articleDao.getLoginedMemberRow(loginedMemberId);
+	}
+
+	
 
 }
