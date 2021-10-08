@@ -37,10 +37,19 @@ public class MemberDao {
 		DBUtil.insert(con, sql);
 	}
 
-	public Map<String, Object> getMemberRow(String loginId, String loginPw) {
+	public Map<String, Object> getMemberRowByLoginId(String loginId, String loginPw) {
 		SecSql sql = SecSql.from("SELECT *");
 		sql.append("FROM `member`");
 		sql.append("WHERE loginId = ?", loginId);
+
+		Map<String, Object> memberRow = DBUtil.selectRow(con, sql);
+		return memberRow;
+	}
+
+	public Map<String, Object> getMemberRowByMemberId(int memberId) {
+		SecSql sql = SecSql.from("SELECT *");
+		sql.append("FROM `member`");
+		sql.append("WHERE id = ?", memberId);
 
 		Map<String, Object> memberRow = DBUtil.selectRow(con, sql);
 		return memberRow;

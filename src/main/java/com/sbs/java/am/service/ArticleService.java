@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.sbs.java.am.dao.ArticleDao;
-import com.sbs.java.am.util.DBUtil;
-import com.sbs.java.am.util.SecSql;
 
 public class ArticleService {
 	private Connection con;
@@ -45,7 +43,7 @@ public class ArticleService {
 
 		return articleRows;
 	}
-	
+
 	public Map<String, Object> getForPrintArticleRow(int id) {
 
 		return articleDao.getArticleRow(id);
@@ -67,7 +65,5 @@ public class ArticleService {
 	public void doDelete(int id) {
 		articleDao.doDelete(id);
 	}
-
-	
 
 }

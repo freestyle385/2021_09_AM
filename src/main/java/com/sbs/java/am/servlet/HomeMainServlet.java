@@ -4,22 +4,21 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.sbs.java.am.Config;
+import com.sbs.java.am.controller.ArticleController;
 import com.sbs.java.am.exception.SQLErrorException;
-import com.sbs.java.am.util.DBUtil;
-import com.sbs.java.am.util.SecSql;
 
 @WebServlet("/home/main")
 public class HomeMainServlet extends HttpServlet {
+
+	private ArticleController articleController;
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -45,25 +44,8 @@ public class HomeMainServlet extends HttpServlet {
 		try {
 			con = DriverManager.getConnection(Config.getDBurl(), Config.getDBId(), Config.getDBPw());
 			
-			// topBar
-			HttpSession session = request.getSession();
-
-			boolean isLogined = false;
-			int loginedMemberId = -1;
-			Map<String, Object> loginedMemberRow = null;
-
-			if (session.getAttribute("loginedMemberId") != null) {
-				loginedMemberId = (int) session.getAttribute("loginedMemberId");
-				isLogined = true;
-
-				SecSql sql = SecSql.from("SELECT * FROM `member`");
-				sql.append("WHERE id = ?", loginedMemberId);
-				loginedMemberRow = DBUtil.selectRow(con, sql);
-			}
-
-			request.setAttribute("isLogined", isLogined);
-			request.setAttribute("loginedMemberId", loginedMemberId);
-			request.setAttribute("loginedMemberRow", loginedMemberRow);
+			articleController = new ArticleController(request, response, con);
+			articleController.setLoginedMemberInfo();
 			
 			request.getRequestDispatcher("/jsp/home/main.jsp").forward(request, response);
 		} catch (SQLException e) {

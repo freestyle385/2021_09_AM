@@ -23,8 +23,12 @@ public class MemberService {
 		memberDao.doJoin(loginId, loginPw, userName);
 	}
 
-	public Map<String, Object> getMemberRow(String loginId, String loginPw) {
-		return memberDao.getMemberRow(loginId, loginPw);
+	public Map<String, Object> getMemberRowByLoginId(String loginId, String loginPw) {
+		return memberDao.getMemberRowByLoginId(loginId, loginPw);
+	}
+
+	public Map<String, Object> getMemberRowByMemberId(int memberId) {
+		return memberDao.getMemberRowByMemberId(memberId);
 	}
 
 }

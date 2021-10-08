@@ -57,7 +57,7 @@ public class MemberController {
 		String loginId = request.getParameter("loginId");
 		String loginPw = request.getParameter("loginPw");
 
-		Map<String, Object> memberRow = memberService.getMemberRow(loginId, loginPw);
+		Map<String, Object> memberRow = memberService.getMemberRowByLoginId(loginId, loginPw);
 
 		if (memberRow.isEmpty()) {
 			response.getWriter().append(

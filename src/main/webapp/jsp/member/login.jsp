@@ -8,8 +8,6 @@
 </head>
 <body>
 	<h1>회원 로그인</h1>
-	<!-- 이미 로그인된 상태에서 url를 통해 로그인 창을 다시 접근할 경우 메인화면으로 돌아가도록 구현 필요 -->
-
 	<script>
 		var LoginForm_submitDone = false;
 		// 입력 여부 체크, 비밀번호 일치 여부 체크
