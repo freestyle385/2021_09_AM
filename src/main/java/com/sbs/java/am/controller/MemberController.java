@@ -57,7 +57,7 @@ public class MemberController {
 		String loginId = request.getParameter("loginId");
 		String loginPw = request.getParameter("loginPw");
 
-		Member member = memberService.getMemberByLoginId(loginId, loginPw);
+		Member member = memberService.getMemberByLoginId(loginId);
 
 		if (member == null) {
 			response.getWriter().append(

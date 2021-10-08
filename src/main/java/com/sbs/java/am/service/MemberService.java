@@ -24,8 +24,8 @@ public class MemberService {
 		memberDao.doJoin(loginId, loginPw, userName);
 	}
 
-	public Member getMemberByLoginId(String loginId, String loginPw) {
-		return memberDao.getMemberByLoginId(loginId, loginPw);
+	public Member getMemberByLoginId(String loginId) {
+		return memberDao.getMemberByLoginId(loginId);
 	}
 
 	public Member getMemberById(int memberId) {
