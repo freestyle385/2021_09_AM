@@ -34,7 +34,6 @@ Map<String, Object> articleRow = (Map<String, Object>) request.getAttribute("art
 	<div>
 		<a href="/AM/s/article/modify?id=${param.id}">수정</a> 
 		<a href="/AM/s/article/doDelete?id=${param.id}">삭제</a> 
-		<a href="/AM/s/article/list">리스트</a>
 	</div>
 
 

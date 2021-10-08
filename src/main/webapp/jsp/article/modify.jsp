@@ -16,7 +16,7 @@ Map<String, Object> articleRow = (Map<String, Object>) request.getAttribute("art
 	<h1><%=(int) articleRow.get("id")%>번 게시물 수정
 	</h1>
 
-	<form action="doModify" method="post">
+	<form action="/AM/s/article/doModify" method="post">
 		<!-- get보다 post가 보안성, 생성 가능 분량 면에서 효율적 -->
 		<%-- <input  name="id" value="<%=Integer.parseInt(request.getParameter("id"))%>" type="hidden"/> --%>
 		<input type="hidden" name="id" value="${param.id}" />
@@ -43,7 +43,7 @@ Map<String, Object> articleRow = (Map<String, Object>) request.getAttribute("art
 		</div>
 		<div>
 			<button type="submit">수정</button>
-			<a href="list">리스트</a>
+			<a href="/AM/s/article/list">취소</a>
 		</div>
 	</form>
 

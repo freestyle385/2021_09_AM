@@ -86,10 +86,14 @@ public class DispatcherServlet extends HttpServlet {
 				} else if (actionMethodName.equals("detail")) {
 					controller.showDetail();
 				} else if (actionMethodName.equals("write")) {
+					controller.write();
+				} else if (actionMethodName.equals("doWrite")) {
 					controller.doWrite();
 				} else if (actionMethodName.equals("modify")) {
+					controller.modify();
+				} else if (actionMethodName.equals("doModify")) {
 					controller.doModify();
-				} else if (actionMethodName.equals("delete")) {
+				} else if (actionMethodName.equals("doDelete")) {
 					controller.doDelete();
 				} else {
 					response.getWriter().append("올바른 요청이 아닙니다.");

@@ -56,6 +56,18 @@ public class ArticleService {
 		return articleDao.getLoginedMemberRow(loginedMemberId);
 	}
 
+	public int doWrite(String title, String body, int loginedMemberId) {
+		return articleDao.doWrite(title, body, loginedMemberId);
+	}
+
+	public void doModify(String title, String body, int id) {
+		articleDao.doModify(title, body, id);
+	}
+
+	public void doDelete(int id) {
+		articleDao.doDelete(id);
+	}
+
 	
 
 }

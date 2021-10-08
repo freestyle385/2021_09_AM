@@ -23,7 +23,7 @@ int totalPage = (int) request.getAttribute("totalPage");
 	
 	<div>
 		<a href="/AM/s/article/write">글쓰기</a>
-		<a href="../home/main">홈 화면</a>
+		<a href="/AM/home/main">홈 화면</a>
 	</div>
 	
 	

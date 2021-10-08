@@ -56,4 +56,36 @@ public class ArticleDao {
 		return articleRow;
 	}
 
+	public int doWrite(String title, String body, int loginedMemberId) {
+		
+		SecSql sql = SecSql.from("INSERT INTO article");
+		sql.append("SET regDate = NOW()");
+		sql.append(", title = ?", title);
+		sql.append(", `body` = ?", body);
+		sql.append(", memberId = ?", loginedMemberId);
+
+		int id = DBUtil.insert(con, sql);
+		
+		return id;
+	}
+
+	public void doModify(String title, String body, int id) {
+		
+		SecSql sql = SecSql.from("UPDATE article");
+		sql.append("SET title = ?", title);
+		sql.append(", `body` = ?", body);
+		sql.append("WHERE id = ?", id);
+
+		DBUtil.update(con, sql);
+	}
+
+	public void doDelete(int id) {
+		
+		SecSql sql = SecSql.from("DELETE");
+		sql.append("FROM article");
+		sql.append("WHERE id = ?", id);
+
+		DBUtil.delete(con, sql);
+	}
+
 }
