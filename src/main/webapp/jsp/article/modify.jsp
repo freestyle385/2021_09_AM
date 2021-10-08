@@ -1,19 +1,20 @@
 <%@ page import="java.util.Map"%>
+<%@ page import="com.sbs.java.am.dto.Article"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
 <%
-Map<String, Object> articleRow = (Map<String, Object>) request.getAttribute("articleRow");
+Article article = (Article) request.getAttribute("article");
 %>
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title><%=(int) articleRow.get("id")%>번 게시물 수정</title>
+<title><%=article.id%>번 게시물 수정</title>
 </head>
 <body>
-	<h1><%=(int) articleRow.get("id")%>번 게시물 수정
+	<h1><%=article.id%>번 게시물 수정
 	</h1>
 
 	<form action="/AM/s/article/doModify" method="post">
@@ -24,22 +25,22 @@ Map<String, Object> articleRow = (Map<String, Object>) request.getAttribute("art
 
 		<div>
 			번호 :
-			<%=(int) articleRow.get("id")%></div>
+			<%=article.id%></div>
 		<div>
 			게시일 :
-			<%=articleRow.get("regDate")%></div>
+			<%=article.regDate%></div>
 
 
 		<div>
 			제목 : <input autocomplete="off" placeholder="수정할 제목을 입력해주세요."
-				value="<%=(String) articleRow.get("title")%>" name="title"
-				type="text" />
+				value="<%=article.title%>" name="title" type="text" />
 		</div>
 		<!-- autocomplete : 자동 검색 여부 설정 -->
 		<div>
 			내용 :
-			<textarea autocomplete="off" placeholder="수정할 내용을 입력해주세요." name="body" /><%=(String) articleRow.get("body")%></textarea>
-			
+			<textarea autocomplete="off" placeholder="수정할 내용을 입력해주세요."
+				name="body" /><%=article.body%></textarea>
+
 		</div>
 		<div>
 			<button type="submit">수정</button>

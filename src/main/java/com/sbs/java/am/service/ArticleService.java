@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.sbs.java.am.dao.ArticleDao;
+import com.sbs.java.am.dto.Article;
 
 public class ArticleService {
 	private Connection con;
@@ -33,20 +34,20 @@ public class ArticleService {
 		return totalPage;
 	}
 
-	public List<Map<String, Object>> getForPrintArticleRows(int page) {
+	public List<Article> getForPrintArticles(int page) {
 		int itemsInAPage = getItemsInAPage();
 		// 페이지별 노출되는 게시물 개수
 		int limitFrom = (page - 1) * itemsInAPage;
 		// 해당 페이지에서의 리스팅 시작점
 
-		List<Map<String, Object>> articleRows = articleDao.getArticleRows(limitFrom, itemsInAPage);
+		List<Article> articles = articleDao.getArticles(limitFrom, itemsInAPage);
 
-		return articleRows;
+		return articles;
 	}
 
-	public Map<String, Object> getForPrintArticleRow(int id) {
+	public Article getForPrintArticle(int id) {
 
-		return articleDao.getArticleRow(id);
+		return articleDao.getArticle(id);
 	}
 
 	public Map<String, Object> getLoginedMemberRow(int loginedMemberId) {

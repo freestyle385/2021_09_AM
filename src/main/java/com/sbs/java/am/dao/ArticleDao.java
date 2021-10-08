@@ -1,9 +1,11 @@
 package com.sbs.java.am.dao;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.sbs.java.am.dto.Article;
 import com.sbs.java.am.util.DBUtil;
 import com.sbs.java.am.util.SecSql;
 
@@ -23,7 +25,7 @@ public class ArticleDao {
 		return totalCount;
 	}
 
-	public List<Map<String, Object>> getArticleRows(int limitFrom, int itemsInAPage) {
+	public List<Article> getArticles(int limitFrom, int itemsInAPage) {
 
 		SecSql sql = SecSql.from("SELECT *");
 		sql.append("FROM article");
@@ -32,7 +34,13 @@ public class ArticleDao {
 
 		List<Map<String, Object>> articleRows = DBUtil.selectRows(con, sql);
 
-		return articleRows;
+		List<Article> articles = new ArrayList<>();
+
+		for (Map<String, Object> articleRow : articleRows) {
+			articles.add(new Article(articleRow));
+		}
+
+		return articles;
 	}
 
 	public Map<String, Object> getLoginedMemberRow(int loginedMemberId) {
@@ -45,15 +53,17 @@ public class ArticleDao {
 		return loginedMemberRow;
 	}
 
-	public Map<String, Object> getArticleRow(int id) {
+	public Article getArticle(int id) {
 
 		SecSql sql = SecSql.from("SELECT *");
 		sql.append("FROM article");
 		sql.append("WHERE id = ?", id);
 
 		Map<String, Object> articleRow = DBUtil.selectRow(con, sql);
-
-		return articleRow;
+		
+		Article article = new Article(articleRow);
+		
+		return article;
 	}
 
 	public int doWrite(String title, String body, int loginedMemberId) {

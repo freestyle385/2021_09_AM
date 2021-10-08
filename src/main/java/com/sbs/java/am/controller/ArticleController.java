@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.sbs.java.am.dto.Article;
 import com.sbs.java.am.service.ArticleService;
 import com.sbs.java.am.service.MemberService;
 
@@ -38,9 +39,9 @@ public class ArticleController {
 		}
 
 		int totalPage = articleService.getForPrintListTotalPage(page);
-		List<Map<String, Object>> articleRows = articleService.getForPrintArticleRows(page);
-
-		request.setAttribute("articleRows", articleRows);
+		List<Article> articles = articleService.getForPrintArticles(page);
+		
+		request.setAttribute("articles", articles);
 		request.setAttribute("page", page);
 		request.setAttribute("totalPage", totalPage);
 		request.getRequestDispatcher("/jsp/article/list.jsp").forward(request, response);
@@ -57,13 +58,13 @@ public class ArticleController {
 
 		// 게시물 불러오기
 		int id = Integer.parseInt(request.getParameter("id"));
-		Map<String, Object> articleRow = articleService.getForPrintArticleRow(id);
+		Article article = articleService.getForPrintArticle(id);
 		
 		// 게시물의 memberId로 memberRow 불러오기(작성자 이름 불러오기)
-		int memberId = (int) articleRow.get("memberId");
+		int memberId = article.memberId;
 		Map<String, Object> memberRow = memberService.getMemberRowByMemberId(memberId);
 		
-		request.setAttribute("articleRow", articleRow);
+		request.setAttribute("article", article);
 		request.setAttribute("memberRow", memberRow);
 		request.getRequestDispatcher("/jsp/article/detail.jsp").forward(request, response);
 	}
@@ -89,7 +90,7 @@ public class ArticleController {
 		int id = articleService.doWrite(title, body, loginedMemberId);
 
 		response.getWriter().append(String
-				.format("<script> alert('%d번 글이 생성되었습니다.'); location.replace('AM/s/article/list'); </script>", id));
+				.format("<script> alert('%d번 글이 생성되었습니다.'); location.replace('list'); </script>", id));
 	}
 
 	public void modify() throws IOException, ServletException {
@@ -104,15 +105,15 @@ public class ArticleController {
 		// 게시물 불러오기
 		int id = Integer.parseInt(request.getParameter("id"));
 
-		Map<String, Object> articleRow = articleService.getForPrintArticleRow(id);
+		Article article = articleService.getForPrintArticle(id);
 
-		if (loginedMemberId != (int) articleRow.get("memberId")) {
+		if (loginedMemberId != article.memberId) {
 			response.getWriter().append(
 					String.format("<script> alert('수정 권한이 없습니다.'); location.replace('list'); </script>"));
 			return;
 		}
 		
-		request.setAttribute("articleRow", articleRow);
+		request.setAttribute("article", article);
 		request.getRequestDispatcher("/jsp/article/modify.jsp").forward(request, response);
 	}
 
@@ -138,9 +139,9 @@ public class ArticleController {
 
 		int id = Integer.parseInt(request.getParameter("id"));
 		
-		Map<String, Object> articleRow = articleService.getForPrintArticleRow(id);
+		Article article = articleService.getForPrintArticle(id);
 
-		if (loginedMemberId != (int) articleRow.get("memberId")) {
+		if (loginedMemberId != article.memberId) {
 			response.getWriter().append(
 					String.format("<script> alert('수정 권한이 없습니다.'); location.replace('list'); </script>"));
 			return;
