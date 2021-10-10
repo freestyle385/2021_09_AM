@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.sbs.java.am.dto.Article;
+import com.sbs.java.am.dto.Member;
 import com.sbs.java.am.util.DBUtil;
 import com.sbs.java.am.util.SecSql;
 
@@ -51,9 +52,12 @@ public class ArticleDao {
 
 		Map<String, Object> articleRow = DBUtil.selectRow(con, sql);
 
-		Article article = new Article(articleRow);
-
-		return article;
+		if (articleRow.isEmpty()) {
+			return null;
+		} else {
+			Article article = new Article(articleRow);
+			return article;
+		}
 	}
 
 	public int doWrite(String title, String body, int loginedMemberId) {

@@ -36,7 +36,7 @@ public class MemberController {
 
 		if (loginedMemberId != -1) {
 			response.getWriter().append(
-					String.format("<script> alert('이미 로그인 중입니다.'); history.back(); </script>"));
+					String.format("<script> alert('이미 로그인 중입니다.'); location.replace('/AM/home/main'); </script>"));
 			return;
 		}
 		
@@ -71,7 +71,7 @@ public class MemberController {
 
 		if (member == null) {
 			response.getWriter().append(
-					String.format("<script> alert('%s (은)는 존재하지 않는 회원입니다.'); history.back(); </script>", loginId));
+					String.format("<script> alert('%s (은)는 존재하지 않는 회원입니다.'); location.replace('/AM/home/main'); </script>", loginId));
 			return;
 		}
 
@@ -92,7 +92,7 @@ public class MemberController {
 
 		if (loginedMemberId == -1) {
 			response.getWriter().append(
-					String.format("<script> alert('로그인 상태가 아닙니다.'); history.back(); </script>"));
+					String.format("<script> alert('로그인 상태가 아닙니다.'); location.replace('/AM/home/main'); </script>"));
 			return;
 		}
 		

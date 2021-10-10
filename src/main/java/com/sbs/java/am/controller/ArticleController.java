@@ -58,7 +58,14 @@ public class ArticleController {
 
 		// 게시물 불러오기
 		int id = Integer.parseInt(request.getParameter("id"));
+		
 		Article article = articleService.getForPrintArticle(id);
+		
+		if (article == null) {
+			response.getWriter().append(
+					String.format("<script> alert('해당 게시물은 존재하지 않습니다.'); location.replace('list'); </script>"));
+			return;
+		}
 		
 		// 게시물의 memberId로 memberRow 불러오기(작성자 이름 불러오기)
 		int memberId = article.memberId;
@@ -104,9 +111,15 @@ public class ArticleController {
 
 		// 게시물 불러오기
 		int id = Integer.parseInt(request.getParameter("id"));
-
+		
 		Article article = articleService.getForPrintArticle(id);
-
+		
+		if (article == null) {
+			response.getWriter().append(
+					String.format("<script> alert('해당 게시물은 존재하지 않습니다.'); location.replace('list'); </script>"));
+			return;
+		}
+		
 		if (loginedMemberId != article.memberId) {
 			response.getWriter().append(
 					String.format("<script> alert('수정 권한이 없습니다.'); location.replace('list'); </script>"));
@@ -140,7 +153,13 @@ public class ArticleController {
 		int id = Integer.parseInt(request.getParameter("id"));
 		
 		Article article = articleService.getForPrintArticle(id);
-
+		
+		if (article == null) {
+			response.getWriter().append(
+					String.format("<script> alert('해당 게시물은 존재하지 않습니다.'); location.replace('list'); </script>"));
+			return;
+		}
+		
 		if (loginedMemberId != article.memberId) {
 			response.getWriter().append(
 					String.format("<script> alert('삭제 권한이 없습니다.'); location.replace('list'); </script>"));
