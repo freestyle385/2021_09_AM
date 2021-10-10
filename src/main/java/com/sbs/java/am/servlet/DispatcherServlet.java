@@ -56,7 +56,8 @@ public class DispatcherServlet extends HttpServlet {
 			String[] requestUriBits = requestUri.split("/");
 
 			if (requestUriBits.length < 5) {
-				response.getWriter().append("올바른 요청이 아닙니다.");
+				response.getWriter().append(
+						String.format("<script> alert('잘못된 접근입니다.'); history.back(); </script>"));
 				return;
 			}
 
@@ -81,7 +82,8 @@ public class DispatcherServlet extends HttpServlet {
 				} else if (actionMethodName.equals("doDelete")) {
 					controller.doDelete();
 				} else {
-					response.getWriter().append("올바른 요청이 아닙니다.");
+					response.getWriter().append(
+							String.format("<script> alert('잘못된 접근입니다.'); history.back(); </script>"));
 					return;
 				}
 			} else if (controllerName.equals("member")) {
@@ -98,7 +100,8 @@ public class DispatcherServlet extends HttpServlet {
 				} else if (actionMethodName.equals("doLogin")) {
 					controller.doLogin();
 				} else {
-					response.getWriter().append("올바른 요청이 아닙니다.");
+					response.getWriter().append(
+							String.format("<script> alert('잘못된 접근입니다.'); history.back(); </script>"));
 					return;
 				}
 			}

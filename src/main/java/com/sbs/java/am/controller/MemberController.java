@@ -17,12 +17,14 @@ public class MemberController {
 	private HttpServletResponse response;
 	private Connection con;
 	private MemberService memberService;
+	private ArticleController articleController;
 
 	public MemberController(HttpServletRequest request, HttpServletResponse response, Connection con) {
 		this.request = request;
 		this.response = response;
 		this.con = con;
 		this.memberService = new MemberService(con);
+		this.articleController = new ArticleController(request, response, con);
 	}
 
 	public void join() throws ServletException, IOException {
@@ -30,6 +32,14 @@ public class MemberController {
 	}
 
 	public void login() throws ServletException, IOException {
+		int loginedMemberId = articleController.setLoginedMemberInfo();
+
+		if (loginedMemberId != -1) {
+			response.getWriter().append(
+					String.format("<script> alert('이미 로그인 중입니다.'); history.back(); </script>"));
+			return;
+		}
+		
 		request.getRequestDispatcher("/jsp/member/login.jsp").forward(request, response);
 	}
 
@@ -69,7 +79,7 @@ public class MemberController {
 			response.getWriter().append(String.format("<script> alert('비밀번호가 일치하지 않습니다.'); history.back(); </script>"));
 			return;
 		}
-
+		
 		HttpSession session = request.getSession();
 		session.setAttribute("loginedMemberId", member.id);
 
@@ -78,6 +88,14 @@ public class MemberController {
 	}
 
 	public void doLogout() throws IOException {
+		int loginedMemberId = articleController.setLoginedMemberInfo();
+
+		if (loginedMemberId == -1) {
+			response.getWriter().append(
+					String.format("<script> alert('로그인 상태가 아닙니다.'); history.back(); </script>"));
+			return;
+		}
+		
 		HttpSession session = request.getSession();
 		session.removeAttribute("loginedMemberId");
 
